@@ -313,7 +313,6 @@ function App() {
           <Route path="/auth" element={<Auth onAuthSuccess={handleAuthSuccess} />} />
           <Route path="/login" element={<Auth onAuthSuccess={handleAuthSuccess} />} />
           <Route path="/register" element={<Auth onAuthSuccess={handleAuthSuccess} />} />
-          <Route path="/debug" element={<AuthDebug />} />
           
           {/* Protected routes */}
           <Route
@@ -382,7 +381,9 @@ function App() {
               )
             }
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          
+          {/* Troubleshooting route - keep for future debugging if needed */}
+          <Route path="/debug" element={<AuthDebug />} />
         </Routes>
       </div>
     </Router>
