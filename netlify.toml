@@ -1,0 +1,20 @@
+# Netlify configuration file
+
+[build]
+  # Directory to change to before starting a build
+  publish = "dist"
+  # Build command
+  command = "npm run build"
+
+# Redirects and rewrites
+[[redirects]]
+  # Redirect all paths to index.html for single-page app behavior
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
+# Environment variables can be set here as well
+[build.environment]
+  # For example:
+  # MY_CUSTOM_VARIABLE = "value" 
