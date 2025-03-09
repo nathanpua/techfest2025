@@ -8,15 +8,16 @@ const getURL = () => {
   let url =
     import.meta.env.VITE_SITE_URL ??  // Set this environment variable in Vercel
     import.meta.env.VITE_VERCEL_URL ?? // Automatically set by Vercel
-    'http://localhost:5173/'
+    'http://localhost:5173'
   
   // Make sure to include `https://` when not localhost
   url = url.includes('http') ? url : `https://${url}`
   
-  // Make sure to include trailing slash
-  url = url.charAt(url.length - 1) === '/' ? url : `${url}/`
+  // Remove trailing slash if present
+  url = url.charAt(url.length - 1) === '/' ? url.slice(0, -1) : url
   
-  return url
+  console.log('Auth redirect URL:', `${url}/dashboard`)
+  return `${url}/dashboard`
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -25,7 +26,13 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     detectSessionInUrl: true,
     flowType: 'pkce',
-    redirectTo: getURL()
+    // Always redirect to dashboard after authentication
+    redirectTo: getURL(),
+    // Allow cookies to be sent in cross-site requests
+    cookieOptions: {
+      sameSite: 'lax',
+      secure: true
+    }
   },
   global: {
     headers: {

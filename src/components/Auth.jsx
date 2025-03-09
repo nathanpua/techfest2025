@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +10,13 @@ const Auth = ({ onAuthSuccess }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
+  const [authError, setAuthError] = useState(null)
   const navigate = useNavigate()
+  
+  // Clear any auth errors when switching between sign-in/sign-up
+  useEffect(() => {
+    setAuthError(null)
+  }, [isSignUp])
 
   const handleAuth = async (e) => {
     e.preventDefault()
@@ -21,21 +27,27 @@ const Auth = ({ onAuthSuccess }) => {
     }
     
     setLoading(true)
+    setAuthError(null)
     
     try {
       let result
       
       if (isSignUp) {
         // Sign up
+        console.log('Attempting to sign up with email:', email)
         result = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin
+            emailRedirectTo: window.location.origin,
+            data: {
+              email: email
+            }
           }
         })
       } else {
         // Sign in - using signInWithPassword which is more reliable for Vercel deployments
+        console.log('Attempting to sign in with email:', email)
         result = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -46,8 +58,11 @@ const Auth = ({ onAuthSuccess }) => {
       
       if (error) {
         console.error('Auth error details:', error)
+        setAuthError(error.message)
         throw error
       }
+      
+      console.log('Auth successful, data:', data)
       
       if (isSignUp && data?.user) {
         toast.success('Registration successful! Please check your email for verification.')
@@ -98,6 +113,19 @@ const Auth = ({ onAuthSuccess }) => {
               </div>
               
               <form onSubmit={handleAuth} className="auth-form">
+                {authError && (
+                  <div className="auth-error" style={{ 
+                    padding: '10px', 
+                    marginBottom: '15px', 
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+                    borderRadius: '6px', 
+                    color: '#ef4444', 
+                    fontSize: '14px' 
+                  }}>
+                    <strong>Error:</strong> {authError}
+                  </div>
+                )}
+                
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
                   <input
