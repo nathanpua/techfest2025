@@ -27,18 +27,23 @@ console.log('- Redirect URL:', getURL())
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    // Use minimal configuration to reduce potential issues
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false, // Changed to false to simplify auth flow
-    flowType: 'implicit', // Changed to implicit flow which is more reliable
+    flowType: 'pkce', // Using PKCE flow which is more secure
     redirectTo: getURL(),
-    storageKey: 'supabase.auth.token',
     // Use lenient cookie options to avoid cross-site issues
     cookieOptions: {
       sameSite: 'lax',
-      secure: true, 
-      domain: window.location.hostname === 'localhost' ? 'localhost' : 'vercel.app'
+      secure: true
+    }
+  },
+  global: {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'apikey': supabaseAnonKey,
+      'Prefer': 'return=minimal'
     }
   }
 })
