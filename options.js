@@ -65,7 +65,7 @@ const restoreOptions = () => {
   chrome.storage.local.get(
     {
       userId: '',
-      websiteUrl: 'https://techfest2025-delta.vercel.app/' // Default website URL
+      websiteUrl: 'https://exposeai.netlify.app/' // Default website URL
     },
     (items) => {
       document.getElementById('userId').value = items.userId;

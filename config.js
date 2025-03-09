@@ -8,7 +8,7 @@ const config = {
   SUPABASE_KEY: "SUPABASE_KEY_PLACEHOLDER",
   
   // Website URL
-  WEBSITE_URL: "https://techfest2025-delta.vercel.app/",
+  WEBSITE_URL: "https://exposeai.netlify.app/",
   
   // OpenAI API key
   OPENAI_API_KEY: "OPENAI_API_KEY_PLACEHOLDER"
