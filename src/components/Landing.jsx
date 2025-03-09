@@ -128,7 +128,7 @@ const Landing = () => {
           <div className="image-container">
             <div className="purple-circle" ref={circleRef}>
               <div className="circle-inner">
-                <img src="/images/iconLanding.png" alt="Exposé Logo" className="circle-image" />
+                <img src={logo} alt="Exposé Logo" className="circle-image" />
               </div>
               <div className="circle-pulse"></div>
               <div className="circle-particles">
