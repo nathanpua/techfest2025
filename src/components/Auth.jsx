@@ -11,18 +11,24 @@ const Auth = ({ onAuthSuccess }) => {
   const [password, setPassword] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
   const [authError, setAuthError] = useState(null)
+  const [useMagicLink, setUseMagicLink] = useState(false)
   const navigate = useNavigate()
   
   // Clear any auth errors when switching between sign-in/sign-up
   useEffect(() => {
     setAuthError(null)
-  }, [isSignUp])
+  }, [isSignUp, useMagicLink])
 
   const handleAuth = async (e) => {
     e.preventDefault()
     
-    if (!email || !password) {
-      toast.error('Please enter both email and password')
+    if (!email) {
+      toast.error('Please enter your email')
+      return
+    }
+    
+    if (!useMagicLink && !password) {
+      toast.error('Please enter your password')
       return
     }
     
@@ -30,7 +36,24 @@ const Auth = ({ onAuthSuccess }) => {
     setAuthError(null)
     
     try {
-      let result
+      let result;
+      
+      if (useMagicLink) {
+        // Use magic link authentication
+        console.log('Attempting magic link auth with email:', email)
+        result = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: `${window.location.origin}/dashboard`,
+          },
+        })
+        
+        if (result.error) throw result.error
+        
+        toast.success('Check your email for the login link!')
+        setLoading(false)
+        return
+      }
       
       if (isSignUp) {
         // Sign up
@@ -108,8 +131,10 @@ const Auth = ({ onAuthSuccess }) => {
           <div className="purple-circle">
             <div className="auth-card">
               <div className="auth-header">
-                <h2>{isSignUp ? 'Create Account' : 'Welcome Back'}</h2>
-                <p>{isSignUp ? 'Join our community fighting misinformation' : 'Sign in to continue your journey'}</p>
+                <h2>{useMagicLink ? 'Login with Magic Link' : isSignUp ? 'Create Account' : 'Welcome Back'}</h2>
+                <p>{useMagicLink ? 'Get a secure link sent to your email' : 
+                   isSignUp ? 'Join our community fighting misinformation' : 
+                   'Sign in to continue your journey'}</p>
               </div>
               
               <form onSubmit={handleAuth} className="auth-form">
@@ -138,34 +163,48 @@ const Auth = ({ onAuthSuccess }) => {
                   />
                 </div>
                 
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    required
-                  />
-                </div>
+                {!useMagicLink && (
+                  <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      required
+                    />
+                  </div>
+                )}
                 
                 <button
                   type="submit"
                   disabled={loading}
                   className="auth-button"
                 >
-                  {loading ? 'Processing...' : isSignUp ? 'Create Account' : 'Sign In'}
+                  {loading ? 'Processing...' : 
+                   useMagicLink ? 'Send Magic Link' : 
+                   isSignUp ? 'Create Account' : 'Sign In'}
                 </button>
               </form>
               
-              <div className="auth-toggle">
+              <div className="auth-toggle" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <button
-                  onClick={() => setIsSignUp(!isSignUp)}
+                  onClick={() => setUseMagicLink(!useMagicLink)}
                   className="toggle-button"
+                  style={{ marginBottom: '5px' }}
                 >
-                  {isSignUp ? 'Already have an account? Sign in' : 'Need an account? Sign up'}
+                  {useMagicLink ? 'Use password instead' : 'Sign in with magic link'}
                 </button>
+                
+                {!useMagicLink && (
+                  <button
+                    onClick={() => setIsSignUp(!isSignUp)}
+                    className="toggle-button"
+                  >
+                    {isSignUp ? 'Already have an account? Sign in' : 'Need an account? Sign up'}
+                  </button>
+                )}
               </div>
             </div>
           </div>
