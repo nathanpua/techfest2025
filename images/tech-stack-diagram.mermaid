@@ -1,0 +1,27 @@
+graph TD
+    A[Misinformation Detection Platform] --> B[Frontend]
+    A --> C[Backend]
+    A --> D[External APIs]
+    
+    B --> B1[React.js]
+    B --> B2[Vite]
+    B --> B3[Tailwind CSS]
+    B --> B4[React Router]
+    
+    C --> C1[Supabase]
+    C1 --> C1a[Authentication]
+    C1 --> C1b[PostgreSQL Database]
+    C1 --> C1c[Edge Functions]
+    C1 --> C1d[Row Level Security]
+    
+    D --> D1[OpenAI API]
+    D1 --> D1a[GPT-4]
+    D1 --> D1b[GPT-4-Vision]
+    
+    D --> D2[Deepfake Detection API]
+    D --> D3[AIorNot API]
+    
+    style A fill:#f96,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bfb,stroke:#333,stroke-width:2px
+    style D fill:#fbf,stroke:#333,stroke-width:2px

@@ -1,0 +1,33 @@
+graph TD
+    App[App.jsx] --> Router[Router]
+    Router --> Home[HomePage]
+    Router --> Analysis[AnalysisPage]
+    Router --> History[HistoryPage]
+    Router --> Profile[ProfilePage]
+    
+    Home --> HomeHero[Hero Component]
+    Home --> Features[Features List]
+    
+    Analysis --> TextAnalysis[Text Analysis]
+    Analysis --> ImageAnalysis[Image Analysis]
+    
+    TextAnalysis --> TextInput[Text Input Form]
+    TextAnalysis --> AIRequest[OpenAI Request Handler]
+    TextAnalysis --> Results[Analysis Results]
+    
+    ImageAnalysis --> ImageUploader[Image Upload Component]
+    ImageAnalysis --> ImageProcessor[Image Processor]
+    ImageAnalysis --> VisionRequest[Vision API Handler]
+    ImageAnalysis --> ImageResults[Image Analysis Results]
+    
+    subgraph Shared Components
+        Auth[Auth Components]
+        NavBar[Navigation Bar]
+        Footer[Footer]
+        LoadingState[Loading Indicators]
+        ErrorHandling[Error Handling]
+    end
+    
+    style App fill:#f96,stroke:#333,stroke-width:2px
+    style Analysis fill:#bbf,stroke:#333,stroke-width:2px
+    style Shared fill:#bfb,stroke:#333,stroke-width:2px

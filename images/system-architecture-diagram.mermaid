@@ -1,0 +1,36 @@
+flowchart TD
+    User[User Interface] --> |Submits content| Frontend[Frontend Layer\nReact + Vite + Tailwind]
+    
+    subgraph Frontend
+        ReactApp[React Application] --> ViteBuilder[Vite Build Tool]
+        ReactApp --> TailwindCSS[Tailwind CSS]
+        ReactApp --> StateManagement[State Management]
+    end
+    
+    Frontend --> |API Requests| Auth[Authentication\nSupabase Auth]
+    Frontend --> |Direct API Calls| OpenAI[OpenAI API\nText & Vision Models]
+    Frontend --> |Secure API Calls| EdgeFunctions[Edge Functions\nSupabase]
+    
+    EdgeFunctions --> |Proxy Request| DeepfakeAPI[Deepfake Detection API]
+    EdgeFunctions --> |Proxy Request| AIorNotAPI[AIorNot API]
+    
+    Auth --> Database[Supabase Database]
+    EdgeFunctions --> Database
+    
+    subgraph AI Services
+        OpenAI --> GPT4[GPT-4]
+        OpenAI --> GPT4V[GPT-4 Vision]
+        OpenAI --> Fallbacks[Model Fallbacks]
+    end
+    
+    subgraph Database Services
+        Database --> UserData[User Profiles]
+        Database --> AnalysisHistory[Analysis History]
+        Database --> ReportData[Report Data]
+    end
+    
+    style User fill:#f9f,stroke:#333,stroke-width:2px
+    style Frontend fill:#bbf,stroke:#333,stroke-width:2px
+    style EdgeFunctions fill:#fbb,stroke:#333,stroke-width:2px
+    style OpenAI fill:#bfb,stroke:#333,stroke-width:2px
+    style Database fill:#fbf,stroke:#333,stroke-width:2px

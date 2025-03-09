@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Supabase
+    participant EdgeFunctions
+    participant OpenAI
+    participant ThirdPartyAPIs
+    
+    User->>Frontend: Submit content for analysis
+    Frontend->>Supabase: Authenticate user
+    Supabase-->>Frontend: Return auth token
+    
+    alt Text Analysis
+        Frontend->>OpenAI: Send text for analysis
+        OpenAI-->>Frontend: Return analysis results
+    else Image Analysis
+        Frontend->>EdgeFunctions: Send image for analysis
+        EdgeFunctions->>OpenAI: Process with GPT-4 Vision
+        EdgeFunctions->>ThirdPartyAPIs: Check with specialized APIs
+        ThirdPartyAPIs-->>EdgeFunctions: Return specialized results
+        OpenAI-->>EdgeFunctions: Return AI analysis
+        EdgeFunctions-->>Frontend: Return combined results
+    end
+    
+    Frontend->>Supabase: Store analysis results
+    Frontend->>User: Display analysis report

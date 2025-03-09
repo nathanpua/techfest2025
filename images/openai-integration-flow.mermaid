@@ -1,0 +1,37 @@
+graph TD
+    Start[Content Submission] --> ModelCheck{Available Models?}
+    
+    ModelCheck -->|GPT-4 Available| GPT4[Use GPT-4]
+    ModelCheck -->|GPT-4 Unavailable| GPT4Turbo[Use GPT-4-Turbo]
+    ModelCheck -->|Fallback Needed| GPT3[Use GPT-3.5-Turbo]
+    
+    GPT4 --> FormatCheck{Supports JSON?}
+    GPT4Turbo --> FormatCheck
+    GPT3 --> ProcessResponse[Process Response]
+    
+    FormatCheck -->|Yes| JsonFormat[Set JSON Format]
+    FormatCheck -->|No| StandardFormat[Use Standard Format]
+    
+    JsonFormat --> MakeRequest[Make API Request]
+    StandardFormat --> MakeRequest
+    
+    MakeRequest --> ApiSuccess{Success?}
+    
+    ApiSuccess -->|Yes| ProcessResponse
+    ApiSuccess -->|No| ErrorHandler[Error Handler]
+    
+    ErrorHandler --> RetryCheck{Retry?}
+    RetryCheck -->|Yes| ModelCheck
+    RetryCheck -->|No| FallbackResponse[Generate Fallback]
+    
+    ProcessResponse --> ParseCheck{Parse Needed?}
+    ParseCheck -->|Yes| ParseJson[Parse JSON]
+    ParseCheck -->|No| ReturnResult[Return Result]
+    
+    ParseJson --> ReturnResult
+    FallbackResponse --> ReturnResult
+    
+    style Start fill:#f96,stroke:#333,stroke-width:2px
+    style MakeRequest fill:#bbf,stroke:#333,stroke-width:2px
+    style ErrorHandler fill:#f99,stroke:#333,stroke-width:2px
+    style ReturnResult fill:#9f9,stroke:#333,stroke-width:2px

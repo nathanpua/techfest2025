@@ -1,0 +1,33 @@
+graph TD
+    Start[Image Upload] --> Validation[Validate Image]
+    Validation --> Encoding[Base64 Encoding]
+    
+    Encoding --> ParallelProcessing{Parallel Processing}
+    
+    ParallelProcessing --> OpenAIVision[OpenAI Vision Analysis]
+    ParallelProcessing --> EdgeFunction[Edge Function]
+    
+    EdgeFunction --> DeepfakeAPI[Deepfake API]
+    EdgeFunction --> AIorNotAPI[AIorNot API]
+    
+    OpenAIVision --> AnomalyDetection[Anomaly Detection]
+    OpenAIVision --> ContextAnalysis[Context Analysis]
+    OpenAIVision --> PatternRecognition[Pattern Recognition]
+    
+    DeepfakeAPI --> DeepfakeScore[Deepfake Score]
+    AIorNotAPI --> AIGenScore[AI Generation Score]
+    
+    AnomalyDetection --> ResultsAggregation[Results Aggregation]
+    ContextAnalysis --> ResultsAggregation
+    PatternRecognition --> ResultsAggregation
+    DeepfakeScore --> ResultsAggregation
+    AIGenScore --> ResultsAggregation
+    
+    ResultsAggregation --> ConfidenceCalculation[Calculate Confidence]
+    ConfidenceCalculation --> FinalVerdict[Final Verdict]
+    FinalVerdict --> ReportGeneration[Generate Report]
+    
+    style Start fill:#f96,stroke:#333,stroke-width:2px
+    style ParallelProcessing fill:#bbf,stroke:#333,stroke-width:2px
+    style ResultsAggregation fill:#fbb,stroke:#333,stroke-width:2px
+    style ReportGeneration fill:#9f9,stroke:#333,stroke-width:2px
