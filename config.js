@@ -8,7 +8,7 @@ const config = {
   SUPABASE_KEY: "SUPABASE_KEY_PLACEHOLDER",
   
   // Website URL
-  WEBSITE_URL: "http://localhost:5173",
+  WEBSITE_URL: "https://techfest2025-five.vercel.app/",
   
   // OpenAI API key
   OPENAI_API_KEY: "OPENAI_API_KEY_PLACEHOLDER"

@@ -65,7 +65,7 @@ const restoreOptions = () => {
   chrome.storage.local.get(
     {
       userId: '',
-      websiteUrl: 'http://localhost:5173' // Default website URL
+      websiteUrl: 'https://techfest2025-five.vercel.app/' // Default website URL
     },
     (items) => {
       document.getElementById('userId').value = items.userId;
