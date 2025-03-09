@@ -13,7 +13,6 @@ import Landing from './components/Landing'
 import About from './components/About'
 import Features from './components/Features'
 import Education from './components/Education'
-import AuthDebug from './components/AuthDebug'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -313,7 +312,6 @@ function App() {
           <Route path="/auth" element={<Auth onAuthSuccess={handleAuthSuccess} />} />
           <Route path="/login" element={<Auth onAuthSuccess={handleAuthSuccess} />} />
           <Route path="/register" element={<Auth onAuthSuccess={handleAuthSuccess} />} />
-          <Route path="/debug" element={<AuthDebug />} />
           
           {/* Protected routes */}
           <Route
