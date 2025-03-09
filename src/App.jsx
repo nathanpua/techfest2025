@@ -13,6 +13,7 @@ import Landing from './components/Landing'
 import About from './components/About'
 import Features from './components/Features'
 import Education from './components/Education'
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -321,6 +322,7 @@ function App() {
                 <>
                   <Navigation user={user} onSignOut={handleSignOut} />
                   <main>
+                    <Analytics />
                     <Dashboard 
                       user={user} 
                       scans={scans} 
