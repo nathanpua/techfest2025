@@ -11,7 +11,7 @@ const getURL = () => {
   
   // In production, use the exact URL without any dynamic parts
   if (isProd) {
-    return 'https://exposeai.netlify.app/dashboard'
+    return 'https://techfest2025-delta.vercel.app/dashboard'
   }
   
   // In development, use localhost
