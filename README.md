@@ -203,10 +203,6 @@ This tech stack combines modern frontend technologies with powerful AI capabilit
 
 ### Article Analysis
 
-<div align="center">
-  <img src="https://via.placeholder.com/800x400?text=Article+Analysis+Flow" alt="Article Analysis Flow" width="80%" />
-</div>
-
 When you submit an article for scanning:
 
 1. The application sends the article text to OpenAI's GPT-4 model
@@ -215,10 +211,6 @@ When you submit an article for scanning:
 4. Both the article and analysis are saved to your Supabase database
 
 ### Image Analysis
-
-<div align="center">
-  <img src="https://via.placeholder.com/800x400?text=Image+Analysis+Flow" alt="Image Analysis Flow" width="80%" />
-</div>
 
 When you upload an image for analysis:
 
@@ -255,10 +247,6 @@ When you upload an image for analysis:
 
 ## Authentication Flow
 
-<div align="center">
-  <img src="https://via.placeholder.com/800x400?text=Authentication+Flow" alt="Authentication Flow" width="80%" />
-</div>
-
 ### User Registration
 - Email and password registration with validation
 - Social login options (Google, GitHub)
@@ -289,7 +277,170 @@ When you upload an image for analysis:
 - Nathan Pua (@nathanpua)
 - Stephanie Heather Zaw (@stephan0b)
 
+## System Architecture and Data Flow
+
+### Data Flow Diagram
+
+```mermaid
+%%{init: {'theme': 'light', 'themeVariables': { 'primaryColor': '#5D8AA8', 'primaryTextColor': '#000', 'primaryBorderColor': '#000', 'lineColor': '#000', 'secondaryColor': '#006100', 'tertiaryColor': '#fff' }}}%%
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Supabase
+    participant EdgeFunctions
+    participant OpenAI
+    participant ThirdPartyAPIs
+    
+    User->>Frontend: Submit content for analysis
+    Frontend->>Supabase: Authenticate user
+    Supabase-->>Frontend: Return auth token
+    
+    alt Text Analysis
+        Frontend->>OpenAI: Send text for analysis
+        OpenAI-->>Frontend: Return analysis results
+    else Image Analysis
+        Frontend->>EdgeFunctions: Send image for analysis
+        EdgeFunctions->>OpenAI: Process with GPT-4 Vision
+        EdgeFunctions->>ThirdPartyAPIs: Check with specialized APIs
+        ThirdPartyAPIs-->>EdgeFunctions: Return specialized results
+        OpenAI-->>EdgeFunctions: Return AI analysis
+        EdgeFunctions-->>Frontend: Return combined results
+    end
+    
+    Frontend->>Supabase: Store analysis results
+    Frontend->>User: Display analysis report
+```
+
+The diagram above illustrates the data flow within Exposé. When a user submits content for analysis, the system authenticates them through Supabase, then processes the content differently based on its type. Text analysis is handled directly through OpenAI, while image analysis involves both OpenAI's Vision capabilities and specialized third-party APIs via Edge Functions. All results are stored in Supabase and presented to the user in a comprehensive report.
+
+### OpenAI Integration Flow
+
+```mermaid
+graph TD
+    Start[Content Submission] --> ModelCheck{Available Models?}
+    
+    ModelCheck -->|GPT-4 Available| GPT4[Use GPT-4]
+    ModelCheck -->|GPT-4 Unavailable| GPT4Turbo[Use GPT-4-Turbo]
+    ModelCheck -->|Fallback Needed| GPT3[Use GPT-3.5-Turbo]
+    
+    GPT4 --> FormatCheck{Supports JSON?}
+    GPT4Turbo --> FormatCheck
+    GPT3 --> ProcessResponse[Process Response]
+    
+    FormatCheck -->|Yes| JsonFormat[Set JSON Format]
+    FormatCheck -->|No| StandardFormat[Use Standard Format]
+    
+    JsonFormat --> MakeRequest[Make API Request]
+    StandardFormat --> MakeRequest
+    
+    MakeRequest --> ApiSuccess{Success?}
+    
+    ApiSuccess -->|Yes| ProcessResponse
+    ApiSuccess -->|No| ErrorHandler[Error Handler]
+    
+    ErrorHandler --> RetryCheck{Retry?}
+    RetryCheck -->|Yes| ModelCheck
+    RetryCheck -->|No| FallbackResponse[Generate Fallback]
+    
+    ProcessResponse --> ParseCheck{Parse Needed?}
+    ParseCheck -->|Yes| ParseJson[Parse JSON]
+    ParseCheck -->|No| ReturnResult[Return Result]
+    
+    ParseJson --> ReturnResult
+    FallbackResponse --> ReturnResult
+    
+    style Start fill:#f96,stroke:#333,stroke-width:2px
+    style MakeRequest fill:#bbf,stroke:#333,stroke-width:2px
+    style ErrorHandler fill:#f99,stroke:#333,stroke-width:2px
+    style ReturnResult fill:#9f9,stroke:#333,stroke-width:2px
+```
+
+This diagram shows our robust OpenAI integration strategy. The system intelligently selects the most appropriate model based on availability, with fallback options to ensure continuous service. The flow includes format checking, error handling with retry logic, and proper response parsing to deliver consistent results regardless of the underlying model used.
+
+### System Architecture
+
+```mermaid
+flowchart TD
+    User[User Interface] --> |Submits content| Frontend[Frontend Layer\nReact + Vite + Tailwind]
+    
+    subgraph Frontend
+        ReactApp[React Application] --> ViteBuilder[Vite Build Tool]
+        ReactApp --> TailwindCSS[Tailwind CSS]
+        ReactApp --> StateManagement[State Management]
+    end
+    
+    Frontend --> |API Requests| Auth[Authentication\nSupabase Auth]
+    Frontend --> |Direct API Calls| OpenAI[OpenAI API\nText & Vision Models]
+    Frontend --> |Secure API Calls| EdgeFunctions[Edge Functions\nSupabase]
+    
+    EdgeFunctions --> |Proxy Request| DeepfakeAPI[Deepfake Detection API]
+    EdgeFunctions --> |Proxy Request| AIorNotAPI[AIorNot API]
+    
+    Auth --> Database[Supabase Database]
+    EdgeFunctions --> Database
+    
+    subgraph AI Services
+        OpenAI --> GPT4[GPT-4]
+        OpenAI --> GPT4V[GPT-4 Vision]
+        OpenAI --> Fallbacks[Model Fallbacks]
+    end
+    
+    subgraph Database Services
+        Database --> UserData[User Profiles]
+        Database --> AnalysisHistory[Analysis History]
+        Database --> ReportData[Report Data]
+    end
+    
+    style User fill:#f9f,stroke:#333,stroke-width:2px
+    style Frontend fill:#bbf,stroke:#333,stroke-width:2px
+    style EdgeFunctions fill:#fbb,stroke:#333,stroke-width:2px
+    style OpenAI fill:#bfb,stroke:#333,stroke-width:2px
+    style Database fill:#fbf,stroke:#333,stroke-width:2px
+```
+
+The system architecture diagram provides a high-level overview of Exposé's components and their interactions. The frontend layer, built with React, Vite, and Tailwind CSS, communicates with Supabase for authentication and data storage. OpenAI's powerful models handle content analysis, while Edge Functions securely proxy requests to specialized third-party APIs for enhanced image analysis capabilities.
+
+### Image Analysis Pipeline
+
+```mermaid
+graph TD
+    Start[Image Upload] --> Validation[Validate Image]
+    Validation --> Encoding[Base64 Encoding]
+    
+    Encoding --> ParallelProcessing{Parallel Processing}
+    
+    ParallelProcessing --> OpenAIVision[OpenAI Vision Analysis]
+    ParallelProcessing --> EdgeFunction[Edge Function]
+    
+    EdgeFunction --> DeepfakeAPI[Deepfake API]
+    EdgeFunction --> AIorNotAPI[AIorNot API]
+    
+    OpenAIVision --> AnomalyDetection[Anomaly Detection]
+    OpenAIVision --> ContextAnalysis[Context Analysis]
+    OpenAIVision --> PatternRecognition[Pattern Recognition]
+    
+    DeepfakeAPI --> DeepfakeScore[Deepfake Score]
+    AIorNotAPI --> AIGenScore[AI Generation Score]
+    
+    AnomalyDetection --> ResultsAggregation[Results Aggregation]
+    ContextAnalysis --> ResultsAggregation
+    PatternRecognition --> ResultsAggregation
+    DeepfakeScore --> ResultsAggregation
+    AIGenScore --> ResultsAggregation
+    
+    ResultsAggregation --> ConfidenceCalculation[Calculate Confidence]
+    ConfidenceCalculation --> FinalVerdict[Final Verdict]
+    FinalVerdict --> ReportGeneration[Generate Report]
+    
+    style Start fill:#f96,stroke:#333,stroke-width:2px
+    style ParallelProcessing fill:#bbf,stroke:#333,stroke-width:2px
+    style ResultsAggregation fill:#fbb,stroke:#333,stroke-width:2px
+    style ReportGeneration fill:#9f9,stroke:#333,stroke-width:2px
+```
+
+The image analysis pipeline demonstrates our comprehensive approach to detecting AI-generated or manipulated images. After initial validation and encoding, the system processes images in parallel through OpenAI's Vision capabilities and specialized third-party APIs. Multiple analysis techniques—including anomaly detection, context analysis, and pattern recognition—are combined with external API scores to calculate a confidence level and generate a detailed report with evidence supporting the final verdict.
+
 ## License
 
-MIT 
+MIT
 
