@@ -14,7 +14,13 @@
   <a href="#pages">Pages</a> •
   <a href="#license">License</a>
 </p>
+## Project Demo
 
+Check out our demo video to see the project in action:
+
+<a href="https://www.youtube.com/watch?v=u7SZNXUD4Pw" target="_blank">
+  <img src="https://img.youtube.com/vi/u7SZNXUD4Pw/0.jpg" alt="Watch the video" width="600">
+</a>
 ## Features
 
 ### 🔍 Comprehensive Content Analysis
