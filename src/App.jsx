@@ -103,24 +103,61 @@ function App() {
   useEffect(() => {
     // Check if user is already logged in
     const checkUser = async () => {
-      const { data } = await supabase.auth.getSession()
-      if (data.session?.user) {
-        setUser(data.session.user)
+      try {
+        const { data, error } = await supabase.auth.getSession()
+        
+        if (error) {
+          console.error('Error getting session:', error)
+          toast.error('Authentication error: ' + error.message)
+          setLoading(false)
+          return
+        }
+        
+        if (data.session?.user) {
+          console.log('User already logged in:', data.session.user.email)
+          setUser(data.session.user)
+        }
+        setLoading(false)
+      } catch (err) {
+        console.error('Unexpected error checking user session:', err)
+        toast.error('Authentication system error. Please try again later.')
+        setLoading(false)
       }
-      setLoading(false)
     }
     
     // Set up auth state listener
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email)
+        
         if (event === 'SIGNED_IN' && session?.user) {
+          console.log('User signed in:', session.user.email)
           setUser(session.user)
+          toast.success('Signed in successfully!')
         } else if (event === 'SIGNED_OUT') {
+          console.log('User signed out')
           setUser(null)
+          toast.success('Signed out successfully!')
+        } else if (event === 'TOKEN_REFRESHED') {
+          console.log('Token refreshed for user:', session?.user?.email)
+        } else if (event === 'USER_UPDATED') {
+          console.log('User updated:', session?.user?.email)
+          setUser(session.user)
         }
       }
     )
     
+    // Cleanup function
+    const cleanup = () => {
+      authListener?.subscription?.unsubscribe()
+    }
+    
+    checkUser()
+    
+    return cleanup
+  }, [])
+
+  useEffect(() => {
     // Check database and API key
     const checkSetup = async () => {
       // Check OpenAI API key
@@ -147,14 +184,7 @@ function App() {
       setDbReady(true)
     }
     
-    checkUser()
     checkSetup()
-    
-    return () => {
-      if (authListener && authListener.subscription) {
-        authListener.subscription.unsubscribe()
-      }
-    }
   }, [])
 
   useEffect(() => {

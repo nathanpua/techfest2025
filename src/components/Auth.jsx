@@ -30,9 +30,12 @@ const Auth = ({ onAuthSuccess }) => {
         result = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: window.location.origin
+          }
         })
       } else {
-        // Sign in
+        // Sign in - using signInWithPassword which is more reliable for Vercel deployments
         result = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -42,6 +45,7 @@ const Auth = ({ onAuthSuccess }) => {
       const { error, data } = result
       
       if (error) {
+        console.error('Auth error details:', error)
         throw error
       }
       
