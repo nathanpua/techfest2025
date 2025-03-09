@@ -18,6 +18,7 @@
 ## Project Demo
 
 Watch our project demo video here:  
+
 [![Demo Video](https://img.shields.io/badge/▶-Watch%20Demo%20Video-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=u7SZNXUD4Pw)
 
 ## Features
