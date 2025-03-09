@@ -1,0 +1,8 @@
+.env
+config.dev.js
+node_modules/
+dist/
+build/
+.DS_Store
+.bolt
+

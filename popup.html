@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exposé</title>
+  <link rel="icon" href="images/icon48.png" type="image/png">
+  <style>
+    :root {
+      --primary: #7c4dff;
+      --primary-hover: #b388ff;
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #1a1a1a;
+      --border-color: #2d2d2d;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --info: #3b82f6;
+      --radius: 8px;
+      --shadow: 0 0 15px rgba(124, 77, 255, 0.2);
+      --shadow-md: 0 0 20px rgba(124, 77, 255, 0.4);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      width: 400px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-height: 600px;
+      overflow-y: auto;
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      line-height: 1.5;
+    }
+    
+    .container {
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-hover);
+      letter-spacing: -0.025em;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo span {
+      font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+      font-style: italic;
+    }
+    
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+    
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button:hover {
+      background-color: var(--primary-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.6s ease;
+      z-index: -1;
+    }
+    
+    button:hover::before {
+      left: 100%;
+    }
+    
+    #result {
+      padding: 16px;
+      border-radius: var(--radius);
+      margin-top: 16px;
+      font-size: 14px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+    }
+    
+    /* Status message styles */
+    .warning, .error, .success, .info {
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      position: relative;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    
+    .error {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    .success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    
+    .info {
+      background-color: rgba(59, 130, 246, 0.1);
+      color: var(--info);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    
+    .warning a, .error a, .success a, .info a {
+      color: inherit;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+    
+    .warning a:hover, .error a:hover, .success a:hover, .info a:hover {
+      text-decoration: none;
+    }
+    
+    /* Analysis Results Styles - Updated to match website UI */
+    .analysis-container {
+      font-family: inherit;
+      color: var(--text-primary);
+    }
+    
+    .article-title {
+      font-size: 16px;
+      margin-bottom: 16px;
+      color: var(--primary-hover);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      font-weight: 600;
+    }
+    
+    /* New styles for standardized UI */
+    .section-heading {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+    
+    .reliability-section, 
+    .reliability-scores-section, 
+    .bias-section {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    /* Progress bar styles */
+    .progress-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .progress-bar-bg {
+      flex-grow: 1;
+      height: 8px;
+      background-color: #374151;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-right: 10px;
+    }
+    
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+    
+    .score-text {
+      font-weight: 600;
+      font-size: 14px;
+      min-width: 40px;
+      text-align: right;
+    }
+    
+    /* Reliability details */
+    .reliability-detail {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    
+    .detail-label {
+      font-weight: 600;
+      margin-right: 4px;
+    }
+    
+    /* Score items */
+    .score-item {
+      margin-bottom: 16px;
+    }
+    
+    .score-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .score-value {
+      font-weight: 600;
+    }
+    
+    .reasoning-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    
+    /* Bias section */
+    .bias-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .bias-item {
+      background-color: var(--bg-secondary);
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+    }
+    
+    .bias-item h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    
+    .bias-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    
+    /* Color classes for progress bars */
+    .high-score {
+      background-color: #10b981; /* bg-green-500 */
+    }
+    
+    .medium-score {
+      background-color: #f59e0b; /* bg-yellow-500 */
+    }
+    
+    .low-score {
+      background-color: #ef4444; /* bg-red-500 */
+    }
+    
+    .view-full-button {
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      background-color: var(--primary);
+      font-weight: 500;
+      padding: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .view-full-button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+    
+    /* Loading animation */
+    .loading-text {
+      position: relative;
+    }
+    
+    .loading-text::after {
+      content: '...';
+      position: absolute;
+      animation: loadingDots 1.5s infinite;
+    }
+    
+    @keyframes loadingDots {
+      0% { content: '.'; }
+      33% { content: '..'; }
+      66% { content: '...'; }
+    }
+    
+    /* Add a subtle glow effect to the container */
+    .container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(124, 77, 255, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    /* Satire warning styles */
+    .satire-warning {
+      background-color: rgba(239, 68, 68, 0.15);
+      border: 2px solid #ef4444;
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 20px;
+      animation: pulse-warning 2s infinite;
+    }
+    
+    .satire-warning h3 {
+      color: #ef4444;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    
+    .satire-warning p {
+      color: var(--text-primary);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    
+    .satire-warning p:last-child {
+      margin-bottom: 0;
+      font-weight: 600;
+    }
+    
+    @keyframes pulse-warning {
+      0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="images/icon48.png" alt="Exposé Logo" class="logo-icon">
+        <span>Expose</span>
+      </div>
+    </div>
+    
+    <div class="button-group">
+      <button id="scanButton">Scan Article</button>
+      <button id="fetchData">View History</button>
+    </div>
+    
+    <div id="result" class="info">Select an option to get started</div>
+  </div>
+  <!-- Load configuration files -->
+  <script type="module" src="config.js"></script>
+  <!-- For development, use this config instead (make sure to gitignore it) -->
+  <script type="module" src="config.dev.js"></script>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

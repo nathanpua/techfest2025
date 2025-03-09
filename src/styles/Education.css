@@ -1,0 +1,304 @@
+/* Education page styles */
+.education-container {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Hero section */
+.education-hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 4rem 4rem;
+  background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(15, 15, 15, 0.95) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.education-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(124, 77, 255, 0.15) 0%, transparent 70%);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+.education-hero-content {
+  text-align: center;
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+}
+
+.education-hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.highlight {
+  background: linear-gradient(90deg, #7c4dff, #b388ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: #a0aec0;
+  line-height: 1.6;
+}
+
+/* Core concepts section */
+.concepts-section {
+  padding: 6rem 4rem;
+  background-color: rgba(15, 15, 15, 0.8);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.concepts-section h2,
+.guide-section h2,
+.quick-tips-section h2,
+.resources-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 4rem;
+  color: #ffffff;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.concepts-section h2::after,
+.guide-section h2::after,
+.quick-tips-section h2::after,
+.resources-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #7c4dff, transparent);
+}
+
+/* Guide section */
+.guide-section {
+  padding: 6rem 4rem;
+  background-color: rgba(10, 10, 10, 0.8);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.guide-card {
+  background: linear-gradient(145deg, rgba(19, 19, 19, 0.8), rgba(29, 29, 29, 0.8));
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(124, 77, 255, 0.1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.guide-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(124, 77, 255, 0.2);
+  border-color: rgba(124, 77, 255, 0.3);
+}
+
+.guide-card h3 {
+  color: #b388ff;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.guide-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-card li {
+  color: #a0aec0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.guide-card li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #7c4dff;
+}
+
+/* Quick tips section */
+.quick-tips-section {
+  padding: 6rem 4rem;
+  background-color: rgba(15, 15, 15, 0.8);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tip-item {
+  background: rgba(124, 77, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tip-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(124, 77, 255, 0.2);
+}
+
+.tip-number {
+  background: #7c4dff;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.tip-item h4 {
+  color: #b388ff;
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+}
+
+.tip-item p {
+  color: #a0aec0;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* Resources section */
+.resources-section {
+  padding: 6rem 4rem;
+  background-color: rgba(10, 10, 10, 0.8);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.resource-link {
+  text-decoration: none;
+}
+
+.resource-card {
+  background: linear-gradient(145deg, rgba(19, 19, 19, 0.8), rgba(29, 29, 29, 0.8));
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(124, 77, 255, 0.1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(124, 77, 255, 0.2);
+  border-color: rgba(124, 77, 255, 0.3);
+}
+
+.resource-card h4 {
+  color: #b388ff;
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+}
+
+.resource-card p {
+  color: #a0aec0;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .education-hero {
+    padding: 6rem 2rem 3rem;
+  }
+
+  .education-hero h1 {
+    font-size: 3rem;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+  }
+
+  .concepts-section,
+  .guide-section,
+  .quick-tips-section,
+  .resources-section {
+    padding: 4rem 2rem;
+  }
+
+  .guide-grid,
+  .tips-grid,
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tip-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .tip-number {
+    margin: 0 auto 1rem;
+  }
+} 

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Expose Settings</title>
+  <link rel="icon" href="images/icon48.png" type="image/png">
+  <style>
+    :root {
+      --primary: #7c4dff;
+      --primary-hover: #b388ff;
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #1a1a1a;
+      --border-color: #2d2d2d;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --info: #3b82f6;
+      --radius: 8px;
+      --shadow: 0 0 15px rgba(124, 77, 255, 0.2);
+      --shadow-md: 0 0 20px rgba(124, 77, 255, 0.4);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      padding: 24px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      line-height: 1.5;
+      position: relative;
+    }
+    
+    /* Add a subtle glow effect to the body */
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(124, 77, 255, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-hover);
+      letter-spacing: -0.025em;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo span {
+      font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+      font-style: italic;
+    }
+    
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-group.focused label {
+      color: var(--primary-hover);
+    }
+    
+    .loading-text {
+      position: relative;
+    }
+    
+    .loading-text::after {
+      content: '...';
+      position: absolute;
+      animation: loadingDots 1.5s infinite;
+    }
+    
+    @keyframes loadingDots {
+      0% { content: '.'; }
+      33% { content: '..'; }
+      66% { content: '...'; }
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(124, 77, 255, 0.2);
+    }
+    
+    small {
+      display: block;
+      margin-top: 6px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+    
+    button {
+      background-color: var(--primary);
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button:hover {
+      background-color: var(--primary-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.6s ease;
+      z-index: -1;
+    }
+    
+    button:hover::before {
+      left: 100%;
+    }
+    
+    #status {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 14px;
+    }
+    
+    .success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    
+    .error {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    .section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <img src="images/icon48.png" alt="Exposé Logo" class="logo-icon">
+      <span>Expose</span>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>User Configuration</h2>
+    <div class="form-group">
+      <label for="userId">User ID</label>
+      <input type="text" id="userId" placeholder="Enter your user ID (UUID format)">
+      <small>
+        To link scans to your account, you need to enter your User ID from the website. 
+        <br>
+        <strong>How to find your User ID:</strong>
+        <ol style="margin-top: 8px; margin-left: 16px;">
+          <li>Log in to the Expose website</li>
+          <li>Go to Settings</li>
+          <li>Find your User ID in the Profile section</li>
+          <li>Copy and paste the entire UUID (looks like: 123e4567-e89b-12d3-a456-426614174000)</li>
+        </ol>
+        <br>
+        <strong>Important:</strong> The User ID must be in the correct UUID format or scans won't be saved.
+      </small>
+    </div>
+    
+    <div class="form-group">
+      <label for="websiteUrl">Website URL</label>
+      <input type="text" id="websiteUrl" placeholder="Enter your website URL (e.g., http://localhost:5173)">
+      <small>
+        Enter the URL of your Expose website to enable direct links to your scan history.
+        <br>
+        <strong>Example:</strong> http://localhost:5173 or https://your-expose-website.com
+      </small>
+    </div>
+  </div>
+  
+  <button id="save">Save Settings</button>
+  <div id="status"></div>
+  <script src="options.js"></script>
+</body>
+</html>

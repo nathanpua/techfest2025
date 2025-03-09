@@ -1,0 +1,333 @@
+/* Auth page styles */
+.auth-container {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Reuse navigation styles from Landing.css */
+.landing-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 4rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(10, 10, 10, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #b388ff;
+}
+
+/* Auth content styles */
+.auth-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.circle-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.purple-circle {
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(124, 77, 255, 0.3) 0%, rgba(124, 77, 255, 0.1) 70%, transparent 100%);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  animation: float 8s ease-in-out infinite, pulse 6s ease-in-out infinite;
+  box-shadow: 0 0 80px rgba(124, 77, 255, 0.3);
+  z-index: 2;
+}
+
+.auth-card {
+  width: 400px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgba(15, 15, 15, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(124, 77, 255, 0.2);
+  animation: fadeIn 1s ease-out;
+}
+
+.auth-header {
+  margin-bottom: 2rem;
+}
+
+.auth-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  background: linear-gradient(90deg, #ffffff, #b388ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+.auth-header p {
+  color: #a0aec0;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  padding: 0.9rem;
+  border-radius: 8px;
+  background-color: rgba(26, 26, 26, 0.8);
+  border: 1px solid #333333;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #7c4dff;
+  box-shadow: 0 0 0 2px rgba(124, 77, 255, 0.2);
+}
+
+.auth-button {
+  padding: 0.9rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7c4dff 0%, #b388ff 100%);
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  font-size: 1rem;
+  box-shadow: 0 10px 20px rgba(124, 77, 255, 0.3);
+}
+
+.auth-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(124, 77, 255, 0.4);
+}
+
+.auth-button:active {
+  transform: translateY(-1px);
+}
+
+.auth-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auth-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: all 0.6s ease;
+}
+
+.auth-button:hover::before {
+  left: 100%;
+}
+
+.auth-toggle {
+  text-align: center;
+}
+
+.toggle-button {
+  background: transparent;
+  border: none;
+  color: #b388ff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+  position: relative;
+}
+
+.toggle-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background-color: #b388ff;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.toggle-button:hover {
+  color: #7c4dff;
+}
+
+.toggle-button:hover::after {
+  width: 80%;
+}
+
+/* Floating elements */
+.floating-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.floating-element {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 77, 255, 0.2) 0%, rgba(124, 77, 255, 0.05) 70%, transparent 100%);
+  animation: floatAround 15s ease-in-out infinite;
+}
+
+/* Animation keyframes */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 60px rgba(124, 77, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 100px rgba(124, 77, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 60px rgba(124, 77, 255, 0.2);
+  }
+}
+
+@keyframes floatAround {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, 20px) scale(1.2);
+  }
+  50% {
+    transform: translate(10px, -30px) scale(0.8);
+  }
+  75% {
+    transform: translate(-20px, 10px) scale(1.1);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .landing-nav {
+    padding: 1rem 2rem;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .purple-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    animation: pulse 6s ease-in-out infinite;
+  }
+  
+  .auth-card {
+    width: 90%;
+    max-width: 350px;
+  }
+  
+  .auth-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .floating-element {
+    display: none;
+  }
+} 
