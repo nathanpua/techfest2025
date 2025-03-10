@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { supabase } from '../supabase';
 import toast from 'react-hot-toast';
 
-// AIorNot API configuration
-const AIORNOT_API_URL = 'https://api.aiornot.com/v1/image/analyze';
-const AIORNOT_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMzOTFlNjRhLTJkZjgtNGMxMC1iMGU5LWIyYmUyYWI5MWE5YiIsInVzZXJfaWQiOiJjMzkxZTY0YS0yZGY4LTRjMTAtYjBlOS1iMmJlMmFiOTFhOWIiLCJhdWQiOiJhY2Nlc3MiLCJleHAiOjAuMH0.tCdqztkLKI_gl-tv8nLE3quvS8fTGBKvTQqwcJRIQp8';
 
 // Available toast methods: toast, toast.success, toast.error, toast.loading, toast.dismiss
 // There is no toast.info in react-hot-toast
